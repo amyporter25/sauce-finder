@@ -14,8 +14,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Late Checkout AI Research Team",
-  description: "Autonomous agents finding acquisition targets 24/7",
+  title: "Sauce Finder - Late Checkout",
+  description: "Smart agents sniff out the 'secret sauce' behind businesses worth owning. Instantly scout high-ARR, community-powered companies ready to add flavor to Late Checkout's portfolio.",
 };
 
 export default function RootLayout({

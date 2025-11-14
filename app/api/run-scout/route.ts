@@ -13,6 +13,7 @@ export const dynamic = 'force-dynamic';
 import { runScoutAgent } from '@/lib/agents/scout';
 import { runFinancialsAnalyzer } from '@/lib/agents/financialsAnalyzer';
 import { runPortfolioFitChecker } from '@/lib/agents/portfolioFitChecker';
+import { scoreSauce } from '@/lib/agents/sauceScorer';
 import type { FullAcquisitionThesis } from '@/lib/types';
 
 /**
@@ -48,15 +49,17 @@ export async function POST() {
     const enrichedTargets = await Promise.all<FullAcquisitionThesis | null>(
       targets.map(async (target) => {
         try {
-          const [financials, portfolioFit] = await Promise.all([
+          const [financials, portfolioFit, sauce] = await Promise.all([
             runFinancialsAnalyzer(target),
             runPortfolioFitChecker(target),
+            scoreSauce(target),
           ]);
 
           return {
             target,
             financials,
             portfolioFit,
+            sauce,
             // Founder will be added in Phase 6
             founder: {
               targetId: target.id,

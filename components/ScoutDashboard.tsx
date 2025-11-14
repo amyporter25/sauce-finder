@@ -64,6 +64,12 @@ export function ScoutDashboard() {
       'Acquisition Openness',
       'Estimated Revenue Upside',
       'Integration Complexity',
+      'Sauce Score',
+      'Community Strength',
+      'Unique Positioning',
+      'Founder Authenticity',
+      'Distribution Moat',
+      'Sauce Reasoning',
       'URL',
       'Description',
       'Why Interesting',
@@ -89,6 +95,12 @@ export function ScoutDashboard() {
       thesis.founder.acquisitionOpenness,
       thesis.portfolioFit.estimatedRevenueUpsideAfterAcquisition,
       thesis.portfolioFit.integrationComplexity,
+      thesis.sauce?.total || '',
+      thesis.sauce?.communityStrength || '',
+      thesis.sauce?.uniquePositioning || '',
+      thesis.sauce?.founderAuthenticity || '',
+      thesis.sauce?.distributionMoat || '',
+      `"${(thesis.sauce?.reasoning || '').replace(/"/g, '""')}"`,
       thesis.target.url,
       `"${thesis.target.description.replace(/"/g, '""')}"`,
       `"${thesis.target.whyInteresting.replace(/"/g, '""')}"`,
@@ -132,6 +144,9 @@ export function ScoutDashboard() {
   const strongBuys = results.filter(
     (r) => r.portfolioFit.recommendation === 'STRONG_BUY'
   ).length;
+  const avgSauceScore = results.length
+    ? (results.reduce((sum, r) => sum + (r.sauce?.total || 0), 0) / results.length).toFixed(1)
+    : '0.0';
 
   const getRecommendationColor = (rec: string) => {
     switch (rec) {
@@ -169,19 +184,17 @@ export function ScoutDashboard() {
               Late Checkout
             </p>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-2" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
-              AI Research Team Dashboard
+              Sauce Finder
             </h1>
           </div>
         </div>
         <p className="text-lg text-slate-600 max-w-3xl leading-relaxed">
-          Autonomous agents finding acquisition targets for Greg Isenberg's portfolio. 
-          Discover community-first businesses with $50k-$5M ARR that align with Late Checkout's 
-          strategic vision.
+          Smart agents sniff out the 'secret sauce' behind businesses worth owning. Instantly scout high-ARR, community-powered companies ready to add flavor to Late Checkout's portfolio.
         </p>
       </div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
         <div className="bg-white border border-slate-200 rounded-xl p-8 flex flex-col items-center justify-center shadow-sm">
           <DollarSign className="w-8 h-8 text-emerald-600 mb-2" />
           <span className="text-sm text-slate-500 mb-1">COMBINED ANNUAL REVENUE</span>
@@ -200,6 +213,13 @@ export function ScoutDashboard() {
           <Users className="w-8 h-8 text-purple-600 mb-2" />
           <span className="text-sm text-slate-500 mb-1">STRONG BUY TARGETS</span>
           <span className="text-2xl font-bold text-slate-900">{strongBuys}</span>
+        </div>
+        <div className="bg-white border border-slate-200 rounded-xl p-8 flex flex-col items-center justify-center shadow-sm">
+          <span className="text-4xl mb-2">🔥</span>
+          <span className="text-sm text-slate-500 mb-1">AVG SAUCE SCORE</span>
+          <span className="text-2xl font-bold text-orange-600">
+            {avgSauceScore}/10
+          </span>
         </div>
       </div>
 
@@ -316,6 +336,35 @@ export function ScoutDashboard() {
 
                 {/* Description */}
                 <p className="text-slate-700 mb-6 leading-relaxed">{thesis.target.description}</p>
+
+                {/* Sauce Score */}
+                {thesis.sauce && (
+                  <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-lg p-6 mb-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-2xl">🔥</span>
+                      <span className="text-lg font-bold text-slate-900">The Sauce Score: {thesis.sauce.total}/10</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <span className="text-xs text-slate-600">Community:</span>
+                        <span className="text-slate-900 font-semibold ml-2">{thesis.sauce.communityStrength}/10</span>
+                      </div>
+                      <div>
+                        <span className="text-xs text-slate-600">Positioning:</span>
+                        <span className="text-slate-900 font-semibold ml-2">{thesis.sauce.uniquePositioning}/10</span>
+                      </div>
+                      <div>
+                        <span className="text-xs text-slate-600">Authenticity:</span>
+                        <span className="text-slate-900 font-semibold ml-2">{thesis.sauce.founderAuthenticity}/10</span>
+                      </div>
+                      <div>
+                        <span className="text-xs text-slate-600">Distribution:</span>
+                        <span className="text-slate-900 font-semibold ml-2">{thesis.sauce.distributionMoat}/10</span>
+                      </div>
+                    </div>
+                    <p className="text-sm text-slate-700 leading-relaxed">{thesis.sauce.reasoning}</p>
+                  </div>
+                )}
 
                 {/* Metrics Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">

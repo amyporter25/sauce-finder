@@ -75,11 +75,21 @@ export interface AcquisitionStrategy {
   nextSteps: string[];
 }
 
+export interface SauceScore {
+  total: number; // 1-10
+  communityStrength: number;
+  uniquePositioning: number;
+  founderAuthenticity: number;
+  distributionMoat: number;
+  reasoning: string;
+}
+
 export interface FullAcquisitionThesis {
   target: AcquisitionTarget;
   financials: FinancialAnalysis;
   portfolioFit: PortfolioFitAnalysis;
   founder: FounderProfile;
+  sauce?: SauceScore;
   strategy?: AcquisitionStrategy; // Optional for MVP
 }
 
