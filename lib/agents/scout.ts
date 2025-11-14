@@ -57,7 +57,11 @@ Return JSON array with this exact structure. You MUST return AT LEAST 5-10 targe
 
 CRITICAL: 
 - You MUST return AT LEAST 5-10 acquisition targets (aim for 8-10 if the data supports it)
-- Return ONLY a valid JSON array. Do NOT include any markdown code blocks, explanations, or text before/after the JSON. Start with [ and end with ]. Return ONLY the JSON array, nothing else.`;
+- Return ONLY a valid JSON array. Do NOT include any markdown code blocks, explanations, or text before/after the JSON. 
+- Start your response with [ and end with ]. 
+- Return ONLY the JSON array, nothing else.
+- Do NOT use markdown formatting. Do NOT wrap in code blocks.
+- Example of correct format: [{"companyName":"Example Co","founderName":"John Doe",...}]`;
 
 /**
  * Run the Scout agent to find acquisition targets
@@ -73,10 +77,19 @@ export async function runScoutAgent(): Promise<AcquisitionTarget[]> {
 
   try {
     // Clean up response - remove markdown code blocks if present
-    const cleanedResponse = response
+    let cleanedResponse = response
       .replace(/```json\n?/g, '')
       .replace(/```\n?/g, '')
       .trim();
+
+    // Try to extract JSON array if there's extra text
+    // Look for the first [ and last ] to extract just the JSON array
+    const firstBracket = cleanedResponse.indexOf('[');
+    const lastBracket = cleanedResponse.lastIndexOf(']');
+    
+    if (firstBracket !== -1 && lastBracket !== -1 && lastBracket > firstBracket) {
+      cleanedResponse = cleanedResponse.substring(firstBracket, lastBracket + 1);
+    }
 
     const parsed = JSON.parse(cleanedResponse) as Array<Partial<AcquisitionTarget>>;
 
@@ -89,8 +102,12 @@ export async function runScoutAgent(): Promise<AcquisitionTarget[]> {
     })) as AcquisitionTarget[];
   } catch (error) {
     console.error('Failed to parse Scout response:', error);
-    console.error('Raw response:', response);
-    throw new Error('Scout agent returned invalid JSON');
+    console.error('Raw response (first 500 chars):', response.substring(0, 500));
+    console.error('Cleaned response (first 500 chars):', response.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim().substring(0, 500));
+    
+    // Return empty array instead of throwing to prevent complete failure
+    console.warn('⚠️ Scout agent returned invalid JSON, returning empty array');
+    return [];
   }
 }
 

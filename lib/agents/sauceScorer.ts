@@ -71,10 +71,18 @@ export async function scoreSauce(target: AcquisitionTarget): Promise<SauceScore>
 
   try {
     // Clean up response - remove markdown code blocks if present
-    const cleanedResponse = response
+    let cleanedResponse = response
       .replace(/```json\n?/g, '')
       .replace(/```\n?/g, '')
       .trim();
+
+    // Try to extract JSON object if there's extra text
+    const firstBrace = cleanedResponse.indexOf('{');
+    const lastBrace = cleanedResponse.lastIndexOf('}');
+    
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      cleanedResponse = cleanedResponse.substring(firstBrace, lastBrace + 1);
+    }
 
     const parsed = JSON.parse(cleanedResponse) as SauceScore;
 
