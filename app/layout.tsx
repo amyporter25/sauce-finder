@@ -16,6 +16,25 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Sauce Finder - Late Checkout",
   description: "Smart agents sniff out the 'secret sauce' behind businesses worth owning. Instantly scout high-ARR, community-powered companies ready to add flavor to Late Checkout's portfolio.",
+  openGraph: {
+    title: "Sauce Finder - Late Checkout",
+    description: "Smart agents sniff out the 'secret sauce' behind businesses worth owning. Instantly scout high-ARR, community-powered companies ready to add flavor to Late Checkout's portfolio.",
+    images: [
+      {
+        url: '/images/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Sauce Finder - EISENBURG\'S FIERY FURY',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Sauce Finder - Late Checkout",
+    description: "Smart agents sniff out the 'secret sauce' behind businesses worth owning.",
+    images: ['/images/logo.png'],
+  },
 };
 
 export default function RootLayout({
