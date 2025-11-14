@@ -168,12 +168,12 @@ export function ScoutDashboard() {
       {/* Header */}
       <div className="mb-12">
         <div className="flex items-center gap-3 mb-4">
-          <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden border border-slate-200">
+          <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
             <Image
               src="/images/logo.png"
               alt="Sauce Finder Logo"
-              width={64}
-              height={64}
+              width={80}
+              height={80}
               className="object-cover w-full h-full"
               priority
             />
