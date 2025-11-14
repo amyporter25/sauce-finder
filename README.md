@@ -1,63 +1,85 @@
-# Late Checkout AI Research Team Dashboard
+# Sauce Finder 🔥
 
-Autonomous agents finding acquisition targets for Greg Isenberg's portfolio.
+Smart agents sniff out the 'secret sauce' behind businesses worth owning. Instantly scout high-ARR, community-powered companies ready to add flavor to Late Checkout's portfolio.
 
-## Setup
+## Features
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+- **Multi-Agent Pipeline**: Scout → Financials → Portfolio Fit → Sauce Score
+- **Real-Time Data**: Uses Perplexity and Firecrawl APIs for live business intelligence
+- **Sauce Score**: Quantifies what makes businesses special (Community, Positioning, Authenticity, Distribution)
+- **Smart Recommendations**: STRONG_BUY, BUY, WATCH, PASS classifications
+- **CSV Export**: Download full acquisition theses for analysis
 
-2. Set up environment variables in `.env.local`:
-   ```
-   ANTHROPIC_API_KEY=your_key_here
-   PERPLEXITY_API_KEY=your_key_here
-   FIRECRAWL_API_KEY=your_key_here
-   ```
+## Tech Stack
 
-3. Run the development server:
-   ```bash
-   npm run dev
-   ```
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **Claude Sonnet 4.5** (via Anthropic API)
+- **Perplexity API** (for search)
+- **Firecrawl API** (for web scraping)
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+## Environment Variables
+
+Create a `.env.local` file with the following:
+
+```env
+ANTHROPIC_API_KEY=your_anthropic_api_key
+PERPLEXITY_API_KEY=your_perplexity_api_key
+FIRECRAWL_API_KEY=your_firecrawl_api_key
+```
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
+
+## Deployment to Vercel
+
+1. **Connect Repository**:
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New Project"
+   - Import the `sauce-finder` repository from GitHub
+
+2. **Configure Environment Variables**:
+   - In Vercel project settings, go to "Environment Variables"
+   - Add all three API keys:
+     - `ANTHROPIC_API_KEY`
+     - `PERPLEXITY_API_KEY`
+     - `FIRECRAWL_API_KEY`
+
+3. **Deploy**:
+   - Vercel will automatically detect Next.js
+   - Click "Deploy"
+   - Your app will be live in minutes!
 
 ## Project Structure
 
 ```
-greg-ai-research-team/
-  app/
-    api/run-scout/     # API route for agent pipeline
-    layout.tsx         # Root layout
-    page.tsx           # Home page
-    globals.css        # Global styles
-  components/
-    ScoutDashboard.tsx # Main dashboard component
-  lib/
-    agents/            # AI agent implementations
-    anthropic.ts       # Claude client helper
-    types.ts           # TypeScript interfaces
-  public/              # Static assets
+├── app/
+│   ├── api/run-scout/    # Main agent pipeline API route
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Dashboard page
+├── components/
+│   └── ScoutDashboard.tsx # Main dashboard component
+├── lib/
+│   ├── agents/           # AI agent implementations
+│   │   ├── scout.ts
+│   │   ├── financialsAnalyzer.ts
+│   │   ├── portfolioFitChecker.ts
+│   │   ├── sauceScorer.ts
+│   │   └── dataGatherer.ts
+│   ├── anthropic.ts      # Claude client wrapper
+│   └── types.ts          # TypeScript interfaces
+└── public/
+    └── images/
+        └── logo.png      # Dashboard logo
 ```
 
-## Tech Stack
+## License
 
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **AI:** Anthropic Claude 3.5 Sonnet
-- **Icons:** Lucide React
-
-## Development
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-
-## Documentation
-
-- `prdgreg.md` - Product Requirements Document
-- `BUILD_PLAN.md` - Step-by-step build plan
-
+Private - Late Checkout Portfolio
