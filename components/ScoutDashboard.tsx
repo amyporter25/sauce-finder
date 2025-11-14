@@ -168,14 +168,13 @@ export function ScoutDashboard() {
       {/* Header */}
       <div className="mb-12">
         <div className="flex items-center gap-3 mb-4">
-          <div className="relative w-12 h-12 flex-shrink-0">
+          <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden border border-slate-200">
             <Image
               src="/images/logo.png"
-              alt="Late Checkout Logo"
-              width={48}
-              height={48}
-              className="object-contain"
-              style={{ width: 'auto', height: 'auto' }}
+              alt="Sauce Finder Logo"
+              width={64}
+              height={64}
+              className="object-cover w-full h-full"
               priority
             />
           </div>
