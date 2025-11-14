@@ -59,7 +59,20 @@ IMPORTANT: Find as many businesses as possible (aim for 10-15 different opportun
       max_tokens: 4000,
     });
 
-    const content = response.choices[0]?.message?.content || '';
+    // Handle Perplexity response which can be string or array of content chunks
+    const messageContent = response.choices[0]?.message?.content;
+    let content = '';
+    
+    if (typeof messageContent === 'string') {
+      content = messageContent;
+    } else if (Array.isArray(messageContent)) {
+      // Extract text from content chunks
+      content = messageContent
+        .filter((chunk) => chunk.type === 'text')
+        .map((chunk) => (chunk as { type: string; text: string }).text)
+        .join('\n');
+    }
+    
     console.log('✅ Perplexity search complete');
     return content;
   } catch (error) {
