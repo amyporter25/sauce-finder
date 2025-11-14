@@ -97,7 +97,9 @@ async function scrapeUrlsWithFirecrawl(urls: string[]): Promise<string> {
           formats: ['markdown'],
           onlyMainContent: true,
         });
-        return `\n===== ${url} =====\n${result.markdown || result.content || 'No content'}\n`;
+        // Firecrawl returns markdown in the result object
+        const content = (result as any).markdown || (result as any).data?.markdown || 'No content';
+        return `\n===== ${url} =====\n${content}\n`;
       } catch (error) {
         console.error(`Error scraping ${url}:`, error);
         return `\n===== ${url} =====\nError: Could not scrape\n`;
